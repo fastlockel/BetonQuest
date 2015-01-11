@@ -4,6 +4,7 @@
 	<groupId>pl.betoncraft.betonquest</groupId>
 	<artifactId>BetonQuest</artifactId>
 	<version>1.6</version>
+	<name>BetonQuest</name>
 	<build>
 		<resources>
 			<resource>

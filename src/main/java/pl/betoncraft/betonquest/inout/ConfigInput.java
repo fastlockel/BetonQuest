@@ -5,8 +5,12 @@ package pl.betoncraft.betonquest.inout;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
+import java.security.SecureRandom;
 import java.util.HashMap;
+
+import org.bukkit.configuration.file.FileConfiguration;
 
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.database.ConfigAccessor;
@@ -68,6 +72,13 @@ public class ConfigInput {
 		npcs.saveDefaultConfig();
 		journal.saveDefaultConfig();
 		items.saveDefaultConfig();
+		
+		FileConfiguration config = BetonQuest.getInstance().getConfig();
+		if (config.isSet("editor.password") &&  config.getString("editor.password").equals("")) {
+			String newPassword = new BigInteger(130, new SecureRandom()).toString(32);
+			config.set("editor.password", newPassword);
+			BetonQuest.getInstance().saveConfig();
+		}
 	}
 	
 	public static String getString(String rawPath) {

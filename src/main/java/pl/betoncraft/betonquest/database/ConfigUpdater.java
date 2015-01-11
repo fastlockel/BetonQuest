@@ -2,7 +2,9 @@ package pl.betoncraft.betonquest.database;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
+import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -85,6 +87,13 @@ public class ConfigUpdater {
 		// starting conversion
 		instance.getLogger().info("Started converting configuration files from v1.5 to v1.6!");
 
+		// adding editor options
+		config.set("editor.enabled", "true");
+		config.set("editor.username", "Admin");
+		config.set("editor.password", new BigInteger(130, new SecureRandom()).toString(32));
+		config.set("editor.port", "8124");
+		instance.getLogger().info("Added editor options to config.yml!");
+		
 		// end of update
 		config.set("version", "1.6");
 		instance.getLogger().info("Conversion to v1.6 finished.");

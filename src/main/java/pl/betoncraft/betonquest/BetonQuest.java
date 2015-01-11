@@ -53,6 +53,7 @@ import pl.betoncraft.betonquest.database.SQLite;
 import pl.betoncraft.betonquest.database.UpdateType;
 import pl.betoncraft.betonquest.database.Updater;
 import pl.betoncraft.betonquest.database.Updater.UpdateResult;
+import pl.betoncraft.betonquest.editor.Editor;
 import pl.betoncraft.betonquest.events.CommandEvent;
 import pl.betoncraft.betonquest.events.ConversationEvent;
 import pl.betoncraft.betonquest.events.DeleteObjectiveEvent;
@@ -103,6 +104,7 @@ public final class BetonQuest extends JavaPlugin {
 	private static BetonQuest instance;
 	private Database database;
 	private boolean isMySQLUsed;
+	private Editor editor;
 
 	private HashMap<String, Class<? extends Condition>> conditions = new HashMap<String, Class<? extends Condition>>();
 	private HashMap<String, Class<? extends QuestEvent>> events = new HashMap<String, Class<? extends QuestEvent>>();
@@ -272,6 +274,19 @@ public final class BetonQuest extends JavaPlugin {
 		} else {
 			getLogger().info("AutoUpdater disabled!");
 		}
+		
+		// editor
+		if (getConfig().getString("editor.enabled").equalsIgnoreCase("true")) {
+			try {
+		        editor = new Editor();
+		        editor.start();
+				getLogger().info("Editor enabled on port " + editor.getPort());
+			} catch (Exception e) {
+				getLogger().info("Could not enable the Editor:");
+				e.printStackTrace();
+			}
+			
+		}
 
 		// done
 		getLogger().log(Level.INFO, "BetonQuest succesfully enabled!");
@@ -279,6 +294,7 @@ public final class BetonQuest extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		editor.stop();
 		database.openConnection();
 		// create array and put there objectives (to avoid concurrent
 		// modification exception)

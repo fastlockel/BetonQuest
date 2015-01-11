@@ -9,6 +9,11 @@ language: en
 metrics: 'true'
 autoupdate: 'true'
 uuid: 'false'
+editor:
+  enabled: 'true'
+  username: 'Admin'
+  password: ''
+  port: '8124'
 default_journal_slot: '-1'
 max_npc_distance: '5'
 tellraw: 'false'
